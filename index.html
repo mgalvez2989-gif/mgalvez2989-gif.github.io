@@ -1,0 +1,1151 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Taller360 | Carrito</title>
+  <style>
+    :root{
+      --bg1:#f6f7fb; --bg2:#f2f4f8;
+      --card:#ffffff; --card2:#f3f5f9;
+      --line:#e7e9f0;
+      --text:#0f172a; --muted:#6b7280;
+      --primary:#2563eb;
+      --ok:#16a34a;
+      --danger:#ef4444;
+      --shadow:0 18px 40px rgba(15,23,42,.10);
+      --shadow2:0 10px 24px rgba(15,23,42,.07);
+      --r:18px; --r2:14px;
+      --blur: blur(14px);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% -10%, rgba(37,99,235,.10), transparent 55%),
+        radial-gradient(900px 600px at 85% 5%, rgba(22,163,74,.08), transparent 55%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1240px; margin:0 auto; padding:0 18px;}
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:50;
+      background: linear-gradient(180deg, rgba(236,239,246,.95) 0%, rgba(246,247,251,.82) 100%);
+      backdrop-filter: var(--blur);
+      border-bottom:1px solid rgba(231,233,240,.95);
+      box-shadow: 0 10px 28px rgba(15,23,42,.10);
+    }
+    .topbar{display:flex; align-items:center; gap:12px; padding:14px 0;}
+    .homeBtn{
+      width:40px; height:40px; border-radius:14px;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.84);
+      box-shadow: 0 10px 22px rgba(15,23,42,.05);
+      cursor:pointer;
+    }
+    .brand{display:flex; align-items:center; gap:10px; min-width: 180px;}
+    .logoImg{
+      height:28px; width:auto; display:block;
+      filter: drop-shadow(0 10px 14px rgba(15,23,42,.08));
+    }
+
+    .pill{
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.84);
+      border-radius:999px;
+      padding:10px 12px;
+      display:flex; align-items:center; gap:10px;
+      color:var(--muted);
+      box-shadow: 0 10px 22px rgba(15,23,42,.05);
+    }
+    .search{flex:1; min-width:240px;}
+    .search input{
+      width:100%;
+      background:transparent; border:0; outline:0;
+      color:var(--text); font-size:14px;
+    }
+    .searchBtn{
+      width:34px; height:34px;
+      border-radius:999px;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(243,245,249,.85);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      box-shadow: 0 10px 22px rgba(15,23,42,.02);
+      flex:0 0 auto;
+    }
+    .searchBtn:active{transform:translateY(1px)}
+    .btn{
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.84);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      transition:transform .06s ease, box-shadow .15s ease;
+      white-space:nowrap;
+      box-shadow: 0 10px 22px rgba(15,23,42,.05);
+    }
+    .btn:hover{box-shadow: var(--shadow2)}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background:linear-gradient(180deg, rgba(37,99,235,1) 0%, rgba(29,78,216,1) 100%);
+      color:white; border-color:transparent; font-weight:900;
+      box-shadow:0 18px 28px rgba(37,99,235,.18);
+    }
+    .btn.link{background:transparent; border-color:transparent; color:var(--primary); box-shadow:none; padding:8px 10px}
+    .ssl{
+      display:flex; align-items:center; gap:8px;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.80);
+      padding:8px 10px; border-radius:999px;
+      color:var(--muted); font-size:12px;
+      box-shadow: 0 10px 22px rgba(15,23,42,.05);
+    }
+    .ssl b{color:var(--text); font-weight:900}
+
+    /* Content */
+    .wrap{padding:18px 0 40px;}
+    .grid{display:grid; grid-template-columns: 1fr 360px; gap:14px; align-items:start;}
+
+    .card{
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:18px;
+      padding:18px;
+      box-shadow: var(--shadow2);
+    }
+    .soft{background:rgba(243,245,249,.85); box-shadow:none}
+    .muted{color:var(--muted)}
+    .h1{font-size:26px; margin:6px 0 0; font-weight:950}
+    .sub{margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.45}
+    .chip{
+      font-size:12px; color:var(--muted);
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.65);
+      padding:6px 10px; border-radius:999px;
+      box-shadow: 0 10px 22px rgba(15,23,42,.02);
+    }
+
+    /* Stepper */
+    .stepper{display:flex; align-items:center; gap:12px; margin:12px 0 14px;}
+    .step{display:flex; align-items:center; gap:10px; min-width:180px;}
+    .bubble{
+      width:26px; height:26px; border-radius:999px;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900; font-size:13px;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.85);
+      color:var(--muted);
+    }
+    .step.active .bubble{background:rgba(37,99,235,.10); border-color:rgba(37,99,235,.25); color:var(--text)}
+    .step.done .bubble{background:rgba(22,163,74,.12); border-color:rgba(22,163,74,.25); color:#14532d}
+    .step label{font-weight:900}
+    .line{flex:1; height:2px; background:rgba(231,233,240,.95); border-radius:999px;}
+    .line.done{background:rgba(22,163,74,.35)}
+    .line.active{background:rgba(37,99,235,.25)}
+
+    /* Stepper stronger differentiation */
+    .step.active{
+      padding:10px 12px;
+      border-radius:16px;
+      background:rgba(37,99,235,.08);
+      border:1px solid rgba(37,99,235,.22);
+    }
+    .step.done label{color:#14532d}
+    .step.done .muted{color:rgba(20,83,45,.75)}
+    .step.active label{color:var(--text)}
+    .step.active .muted{color:rgba(15,23,42,.72)}
+
+    /* Cart items */
+    .cartHead{display:flex; justify-content:space-between; align-items:flex-end; gap:10px; flex-wrap:wrap;}
+    .cartItem{
+      display:grid;
+      grid-template-columns: 62px 1fr 170px;
+      gap:12px;
+      padding:14px;
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:16px;
+      background:rgba(255,255,255,.92);
+      box-shadow: 0 12px 26px rgba(15,23,42,.04);
+      margin-top:10px;
+      align-items:center;
+    }
+    .thumb{
+      width:62px; height:62px; border-radius:14px;
+      background:linear-gradient(180deg, rgba(243,245,249,1), rgba(235,238,245,1));
+      border:1px solid rgba(231,233,240,.95);
+      display:flex; align-items:center; justify-content:center;
+      color:rgba(107,114,128,.8); font-weight:900;
+    }
+    .title{font-weight:950; margin:0}
+    .meta{font-size:12px; color:var(--muted); margin-top:4px}
+    .qty{display:flex; justify-content:flex-end; align-items:center; gap:10px; flex-wrap:wrap;}
+    .qty .qbtn{
+      width:34px; height:34px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(243,245,249,.85);
+      cursor:pointer;
+      user-select:none;
+    }
+    .price{font-weight:950; text-align:right}
+    .smallPill{
+      display:inline-flex; align-items:center; gap:6px;
+      padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(243,245,249,.85);
+      font-size:12px; color:var(--muted);
+      width:max-content; margin-top:8px;
+    }
+    .removeBtn{
+      width:34px; height:34px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid rgba(239,68,68,.22);
+      background:rgba(239,68,68,.08);
+      cursor:pointer;
+      user-select:none;
+    }
+
+    /* Delivery */
+    .deliveryOpt{
+      padding:14px;
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:16px;
+      background:rgba(255,255,255,.92);
+      box-shadow: 0 12px 26px rgba(15,23,42,.04);
+      margin-top:10px;
+    }
+    .dTop{display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap}
+    .radioRow{display:flex; gap:10px; align-items:flex-start}
+    .radioRow input{transform:scale(1.15); margin-top:3px}
+    .dTitle{font-weight:950; margin:0}
+    .dSub{font-size:13px; color:var(--muted); margin-top:4px; line-height:1.35}
+    .right{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .free{color:var(--ok); font-weight:950}
+    .cost{color:var(--text); font-weight:950}
+    .divider{height:1px; background:rgba(231,233,240,.95); margin:12px 0}
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .miniBtns{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .miniBtn{
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(243,245,249,.85);
+      padding:8px 10px; border-radius:14px;
+      cursor:pointer;
+      box-shadow: 0 10px 22px rgba(15,23,42,.02);
+    }
+    .navGroup{
+      display:inline-flex;
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow: 0 10px 22px rgba(15,23,42,.02);
+    }
+    .navGroup a{
+      padding:9px 10px;
+      background:rgba(243,245,249,.85);
+      border-right:1px solid rgba(231,233,240,.95);
+    }
+    .navGroup a:last-child{border-right:none}
+
+    /* Summary */
+    .summary{position:sticky; top:92px}
+    .sumLine{display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid rgba(231,233,240,.95); font-size:14px;}
+    .sumLine:last-child{border-bottom:none}
+    .sumLine b{font-weight:950}
+    .sumBig{display:flex; justify-content:space-between; margin-top:12px; font-size:16px; font-weight:950}
+    .sumBtn{width:100%; margin-top:12px}
+
+    /* Payment */
+    .payGrid{display:grid; gap:10px}
+    .payOpt{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      padding:14px;
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:16px;
+      background:rgba(255,255,255,.92);
+      box-shadow: 0 12px 26px rgba(15,23,42,.04);
+      cursor:pointer;
+    }
+    .payOpt.active{border-color:rgba(37,99,235,.35); box-shadow:0 0 0 3px rgba(37,99,235,.10) inset;}
+    .payLeft{display:flex; gap:12px; align-items:center}
+    .icon{
+      width:44px; height:32px; border-radius:10px;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(243,245,249,.85);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:950; color:rgba(107,114,128,.9);
+      font-size:12px;
+    }
+    .payName{font-weight:950; margin:0}
+    .payHint{font-size:12px; color:var(--muted); margin-top:3px}
+    .formRow{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px}
+    .field{
+      width:100%;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.85);
+      border-radius:14px;
+      padding:10px 12px;
+      color:var(--text);
+      outline:0;
+      box-shadow: 0 10px 22px rgba(15,23,42,.02);
+    }
+    .field::placeholder{color:rgba(107,114,128,.85)}
+    .checkRow{display:flex; gap:10px; align-items:flex-start; margin-top:12px}
+    .checkRow input{transform:scale(1.15); margin-top:2px}
+
+    /* Upsell */
+    #upsellList{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px}
+
+    /* Modal */
+    .overlay{position:fixed; inset:0; background:rgba(15,23,42,.28); display:none; z-index:100;}
+    .overlay.show{display:block}
+    .modal{position:fixed; inset:0; display:none; z-index:110; align-items:center; justify-content:center; padding:18px;}
+    .modal.show{display:flex}
+    .modalCard{
+      width:560px; max-width:100%;
+      background:rgba(255,255,255,.90);
+      backdrop-filter: var(--blur);
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modalHead{padding:14px 16px; border-bottom:1px solid rgba(231,233,240,.95); display:flex; justify-content:space-between; align-items:center;}
+    .modalBody{padding:16px}
+    .ok{display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:999px; background:rgba(22,163,74,.14); border:1px solid rgba(22,163,74,.25); color:#14532d; font-weight:950; margin-right:10px;}
+    .modalTitle{font-size:18px; font-weight:950; margin:0}
+    .modalSub{margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.45}
+    .modalFoot{padding:14px 16px; border-top:1px solid rgba(231,233,240,.95); display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap;}
+
+    @media(max-width:1100px){
+      .grid{grid-template-columns:1fr}
+      .summary{position:static}
+      .ssl{display:none}
+      .step{min-width:auto}
+      .cartItem{grid-template-columns:62px 1fr}
+      .price{text-align:left}
+      .qty{justify-content:flex-start}
+      #upsellList{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="topbar">
+      <button class="homeBtn" id="homeBtn" title="Inicio">🏠</button>
+
+      <div class="brand" title="Taller360">
+        <img class="logoImg" src="taller360-logo.png" alt="Taller360" />
+      </div>
+
+      <div class="pill search" title="Busca por texto o sube una foto">
+        🔎 <input id="searchInput" placeholder="Buscar repuestos (ej: filtro de aceite)" />
+        <button class="searchBtn" id="photoSearchBtn" title="Buscar por foto">📷</button>
+        <input id="photoFile" type="file" accept="image/*" capture="environment" style="display:none" />
+      </div>
+
+      <div class="pill">🚗 <span>Vehículo: <b style="color:var(--text)">VW Tiguan 2020</b></span></div>
+      <div class="ssl" title="Conexión segura">🔒 <b>SSL</b> Certificado de seguridad</div>
+
+      <button class="btn">Cuenta</button>
+      <button class="btn primary">🛒 Carrito (<span id="cartCountTop">3</span>)</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="wrap">
+    <div class="cartHead">
+      <div>
+        <div class="h1">Carrito</div>
+        <div class="sub"><span id="cartCountText">3</span> productos</div>
+      </div>
+    </div>
+
+    <div class="stepper" aria-label="progreso checkout">
+      <div class="step active" id="s1">
+        <div class="bubble">1</div>
+        <div><label>Carrito</label><div class="muted" style="font-size:12px">Revisa productos</div></div>
+      </div>
+      <div class="line" id="l1"></div>
+      <div class="step" id="s2">
+        <div class="bubble">2</div>
+        <div><label>Entrega</label><div class="muted" style="font-size:12px">Elige opción</div></div>
+      </div>
+      <div class="line" id="l2"></div>
+      <div class="step" id="s3">
+        <div class="bubble">3</div>
+        <div><label>Pago</label><div class="muted" style="font-size:12px">Finaliza compra</div></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section>
+
+        <!-- STEP 1 -->
+        <section class="card" id="step-cart">
+          <div style="display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap">
+            <div>
+              <div style="font-weight:950; font-size:16px">Productos</div>
+              <div class="sub">Compatibilidad revisada con tu vehículo activo</div>
+            </div>
+            <button class="btn link" id="selectAllBtn">Seleccionar todos</button>
+          </div>
+
+          <div id="cartList"></div>
+
+          <!-- Dynamic upsell -->
+          <div class="card soft" style="margin-top:12px">
+            <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-end; flex-wrap:wrap">
+              <div>
+                <div style="font-weight:950">Te podría interesar</div>
+                <div class="sub" id="upsellHint">Sugerencias según tu carrito</div>
+              </div>
+              <span class="chip">Sugerencias</span>
+            </div>
+            <div id="upsellList"></div>
+          </div>
+
+          <div class="actions" style="justify-content:flex-end; margin-top:14px">
+            <button class="btn" id="btnToHome">Seguir comprando</button>
+            <button class="btn primary" id="btnToDelivery">Continuar compra</button>
+          </div>
+        </section>
+
+        <!-- STEP 2 -->
+        <section class="card" id="step-delivery" style="display:none">
+          <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-end; flex-wrap:wrap">
+            <div>
+              <div style="font-weight:950; font-size:16px">Tipo de entrega</div>
+              <div class="sub">Elige una opción</div>
+            </div>
+            <span class="chip" id="deliverySelectedChip">Seleccionado: —</span>
+          </div>
+
+          <div class="deliveryOpt">
+            <div class="dTop">
+              <div class="radioRow">
+                <input type="radio" name="delivery" id="dStore" value="store" />
+                <div>
+                  <p class="dTitle">1) Recoger en tienda</p>
+                  <div class="dSub">
+                    Desde: <b>mañana 15 de enero</b> • <b>MiTaller Surco</b><br>
+                    <span class="muted" style="font-size:12px">Av. Paseo La Castellana 183, Santiago de Surco</span>
+                  </div>
+                  <span class="smallPill">⏱️ Listo desde <b>10:00</b> • <b class="free">Gratis</b></span>
+                </div>
+              </div>
+              <div class="right">
+                <span class="free">Gratis</span>
+                <span class="navGroup" aria-label="Cómo llegar">
+                  <a id="storeMaps" target="_blank" rel="noopener">Google Maps</a>
+                  <a id="storeWaze" target="_blank" rel="noopener">Waze</a>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="deliveryOpt">
+            <div class="dTop">
+              <div class="radioRow">
+                <input type="radio" name="delivery" id="dHome" value="home" />
+                <div>
+                  <p class="dTitle">2) Envío a domicilio</p>
+
+                  <div class="dSub">
+                    <b id="homeEtaText">Llega el 17/01</b> • <b>8 a 22 h</b>
+                  </div>
+
+                  <div class="miniBtns">
+                    <button class="miniBtn" id="btnChangeDate">Cambiar fecha</button>
+                    <button class="miniBtn" id="btnChangeAddress">Cambiar dirección</button>
+                    <span class="chip" id="dateChip">Fecha: 17/01</span>
+                  </div>
+
+                  <div class="divider"></div>
+
+                  <div class="radioRow" style="gap:12px">
+                    <input type="radio" name="homeType" id="homeStd" value="std" checked />
+                    <div class="dSub" style="margin-top:0">
+                      Estándar <b>S/ 10</b> • <span class="muted">48–72 h</span>
+                    </div>
+                  </div>
+                  <div class="radioRow" style="gap:12px; margin-top:8px">
+                    <input type="radio" name="homeType" id="homeExp" value="exp" />
+                    <div class="dSub" style="margin-top:0">
+                      Express <b>S/ 15</b> • <span class="muted">24 h</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="right">
+                <span class="cost" id="homeCostRight">S/ 10</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="deliveryOpt">
+            <div class="dTop">
+              <div class="radioRow">
+                <input type="radio" name="delivery" id="dPoint" value="point" />
+                <div>
+                  <p class="dTitle">3) Retiro en punto</p>
+                  <div class="dSub">Selecciona un taller asociado • <b class="free">Gratis</b></div>
+
+                  <div class="card soft" style="padding:12px; border-radius:16px; margin-top:10px">
+                    <div class="radioRow">
+                      <input type="radio" name="pointChoice" id="p1" value="adrian" />
+                      <div style="flex:1">
+                        <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap">
+                          <div>
+                            <div style="font-weight:950">Adrian SAC</div>
+                            <div class="dSub">Av. 28 de Julio 123, Miraflores</div>
+                            <span class="smallPill">⏱️ Retiro desde <b>hoy 16:00</b> • <b class="free">Gratis</b></span>
+                          </div>
+                          <div class="right">
+                            <span class="navGroup" aria-label="Cómo llegar">
+                              <a id="p1Maps" target="_blank" rel="noopener">Google Maps</a>
+                              <a id="p1Waze" target="_blank" rel="noopener">Waze</a>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="radioRow">
+                      <input type="radio" name="pointChoice" id="p2" value="zapler" />
+                      <div style="flex:1">
+                        <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap">
+                          <div>
+                            <div style="font-weight:950">Zapler SAC</div>
+                            <div class="dSub">Av. Angamos 123, Surquillo</div>
+                            <span class="smallPill">⏱️ Retiro desde <b>mañana 10:00</b> • <b class="free">Gratis</b></span>
+                          </div>
+                          <div class="right">
+                            <span class="navGroup" aria-label="Cómo llegar">
+                              <a id="p2Maps" target="_blank" rel="noopener">Google Maps</a>
+                              <a id="p2Waze" target="_blank" rel="noopener">Waze</a>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+              <div class="right">
+                <span class="free">Gratis</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions" style="justify-content:space-between; margin-top:14px">
+            <button class="btn" id="backToCart">← Volver</button>
+            <button class="btn primary" id="btnToPay">Ir a pagar</button>
+          </div>
+        </section>
+
+        <!-- STEP 3 -->
+        <section class="card" id="step-pay" style="display:none">
+          <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-end; flex-wrap:wrap">
+            <div>
+              <div style="font-weight:950; font-size:16px">Pago</div>
+              <div class="sub">Métodos referenciales</div>
+            </div>
+            <span class="chip" id="paySelectedChip">Método: —</span>
+          </div>
+
+          <div class="payGrid" style="margin-top:12px">
+            <div class="payOpt active" data-pay="credit">
+              <div class="payLeft">
+                <div class="icon">CR</div>
+                <div>
+                  <p class="payName">Tarjeta de crédito</p>
+                  <div class="payHint">Referencial</div>
+                </div>
+              </div>
+              <span class="chip">Recomendado</span>
+            </div>
+
+            <div class="payOpt" data-pay="debit">
+              <div class="payLeft">
+                <div class="icon">DB</div>
+                <div>
+                  <p class="payName">Tarjeta de débito</p>
+                  <div class="payHint">Referencial</div>
+                </div>
+              </div>
+              <span class="chip">Simple</span>
+            </div>
+
+            <div class="payOpt" data-pay="wallet">
+              <div class="payLeft">
+                <div class="icon">QR</div>
+                <div>
+                  <p class="payName">Billetera / QR</p>
+                  <div class="payHint">Referencial</div>
+                </div>
+              </div>
+              <span class="chip">Rápido</span>
+            </div>
+
+            <div class="payOpt" data-pay="transfer">
+              <div class="payLeft">
+                <div class="icon">TR</div>
+                <div>
+                  <p class="payName">Transferencia</p>
+                  <div class="payHint">Referencial</div>
+                </div>
+              </div>
+              <span class="chip">Alterno</span>
+            </div>
+          </div>
+
+          <div class="card soft" style="margin-top:12px">
+            <div style="font-weight:950">Datos de pago</div>
+            <div class="formRow">
+              <input class="field" placeholder="Nombre en la tarjeta" />
+              <input class="field" placeholder="Número (demo)" />
+              <input class="field" placeholder="MM/AA" />
+              <input class="field" placeholder="CVV" />
+            </div>
+
+            <div class="checkRow">
+              <input type="checkbox" id="termsOk" />
+              <div class="sub" style="margin:0">
+                Acepto los <a href="#" style="color:var(--primary)">términos y condiciones</a>.
+              </div>
+            </div>
+          </div>
+
+          <div class="actions" style="justify-content:space-between; margin-top:14px">
+            <button class="btn" id="backToDelivery">← Volver</button>
+            <button class="btn primary" id="btnPayNow">Pagar ahora</button>
+          </div>
+        </section>
+
+      </section>
+
+      <aside class="card summary" aria-label="Resumen de la compra">
+        <div style="font-weight:950; font-size:16px; margin-bottom:8px">Resumen de la compra</div>
+
+        <div class="sumLine">
+          <span>Productos (<span id="sumQty">0</span>)</span>
+          <b id="sumProducts">S/ 0.00</b>
+        </div>
+        <div class="sumLine">
+          <span>Descuentos</span>
+          <b id="sumDiscount">- S/ 0.00</b>
+        </div>
+        <div class="sumLine">
+          <span>Entrega</span>
+          <b id="sumDelivery">S/ 0.00</b>
+        </div>
+
+        <div class="sumBig">
+          <span>Total</span>
+          <span id="sumTotal">S/ 0.00</span>
+        </div>
+
+        <button class="btn primary sumBtn" id="summaryAction">Continuar compra</button>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<div class="overlay" id="ov"></div>
+<div class="modal" id="modal">
+  <div class="modalCard">
+    <div class="modalHead">
+      <div style="display:flex; align-items:center; gap:10px">
+        <div class="ok">✓</div>
+        <p class="modalTitle">Tu pago ha sido realizado con éxito</p>
+      </div>
+      <button class="btn" id="closeModal">✕</button>
+    </div>
+    <div class="modalBody">
+      <p class="modalSub" id="successText"></p>
+      <div class="card soft" style="margin-top:12px">
+        <div style="font-weight:950">Pedido</div>
+        <div class="sub" style="margin-top:6px">
+          Tu pedido número <b id="orderId">123456</b>.<br>
+          Puedes rastrearlo en <b>“Mis pedidos”</b> o con el link:
+          <a href="#" id="trackLink" style="color:var(--primary)"></a>
+        </div>
+      </div>
+    </div>
+    <div class="modalFoot">
+      <button class="btn" id="goOrders">Ir a Mis pedidos</button>
+      <button class="btn primary" id="goHome">Volver al inicio</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = (id)=>document.getElementById(id);
+  const money = (n)=>`S/ ${Number(n).toFixed(2)}`;
+
+  // DATA DEMO
+  let cart = [
+    { id:1, name:"Filtro de aceite (OEM)", sku:"VW-OF-218", price:48.00, qty:1 },
+    { id:2, name:"Aceite 5W-30 (Alternativo)", sku:"OIL-5W30-4L", price:89.00, qty:1 },
+    { id:3, name:"Pastillas de freno (Genérico)", sku:"BRK-PAD-001", price:120.00, qty:1 },
+  ];
+  let discounts = 0.00;
+
+  // Delivery state
+  let deliveryMode = null;        // 'store' | 'home' | 'point'
+  let homeType = "std";           // 'std' | 'exp'  (SE MANTIENE)
+  let deliveryCost = 0.00;
+  let deliveryLabel = "—";
+
+  // Dates mapping
+  const DATES = { exp: "15/01", std: "17/01" };
+
+  // Addresses
+  const addrStore = "Av. Paseo La Castellana 183, Santiago de Surco, Lima";
+  const addrP1 = "Av. 28 de Julio 123, Miraflores, Lima";
+  const addrP2 = "Av. Angamos 123, Surquillo, Lima";
+
+  function mapsLink(address){
+    return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address);
+  }
+  function wazeLink(address){
+    return "https://waze.com/ul?q=" + encodeURIComponent(address) + "&navigate=yes";
+  }
+  $("storeMaps").href = mapsLink(addrStore);
+  $("storeWaze").href = wazeLink(addrStore);
+  $("p1Maps").href = mapsLink(addrP1);
+  $("p1Waze").href = wazeLink(addrP1);
+  $("p2Maps").href = mapsLink(addrP2);
+  $("p2Waze").href = wazeLink(addrP2);
+
+  // Search by photo
+  $("photoSearchBtn").onclick = ()=> $("photoFile").click();
+  $("photoFile").addEventListener("change", (e)=>{
+    const file = e.target.files?.[0];
+    if(!file) return;
+    alert("Foto cargada: " + file.name + "\\nDemo: aquí se enviaría a IA/asesor para identificar el repuesto.");
+    e.target.value = "";
+  });
+
+  // Cart rendering
+  function renderCart(){
+    const list = $("cartList");
+    list.innerHTML = "";
+
+    if(cart.length === 0){
+      list.innerHTML = `
+        <div class="card soft" style="margin-top:12px">
+          <div style="font-weight:950">Tu carrito está vacío</div>
+          <div class="sub">Agrega repuestos para continuar.</div>
+        </div>`;
+      clearDeliverySelection();
+      renderUpsell();
+      updateSummary();
+      return;
+    }
+
+    cart.forEach(item=>{
+      const row = document.createElement("div");
+      row.className = "cartItem";
+      row.innerHTML = `
+        <div class="thumb">IMG</div>
+        <div>
+          <p class="title">${item.name}</p>
+          <div class="meta">Código: ${item.sku}</div>
+          <span class="smallPill">✅ Compatible</span>
+        </div>
+        <div>
+          <div class="price">${money(item.price * item.qty)}</div>
+          <div class="qty" style="margin-top:10px">
+            <div class="qbtn" data-dec="${item.id}" title="Reducir">−</div>
+            <div class="chip"><b>${item.qty}</b></div>
+            <div class="qbtn" data-inc="${item.id}" title="Aumentar">+</div>
+            <div class="removeBtn" data-rm="${item.id}" title="Eliminar">🗑️</div>
+          </div>
+        </div>
+      `;
+      list.appendChild(row);
+    });
+
+    document.querySelectorAll("[data-inc]").forEach(b=> b.onclick = ()=> changeQty(Number(b.dataset.inc), +1));
+    document.querySelectorAll("[data-dec]").forEach(b=> b.onclick = ()=> changeQty(Number(b.dataset.dec), -1));
+    document.querySelectorAll("[data-rm]").forEach(b=> b.onclick = ()=> removeItem(Number(b.dataset.rm)));
+
+    renderUpsell();
+    updateSummary();
+  }
+
+  function changeQty(id, delta){
+    const it = cart.find(x=>x.id===id);
+    if(!it) return;
+    it.qty = Math.max(1, it.qty + delta);
+    renderCart();
+  }
+
+  function removeItem(id){
+    const it = cart.find(x=>x.id===id);
+    if(!it) return;
+    const ok = confirm(`Eliminar "${it.name}" del carrito?`);
+    if(!ok) return;
+    cart = cart.filter(x=>x.id !== id);
+    renderCart();
+  }
+
+  // Summary
+  function productsTotal(){ return cart.reduce((s,x)=>s + (x.price * x.qty), 0); }
+  function productsQty(){ return cart.reduce((s,x)=>s + x.qty, 0); }
+
+  function updateSummary(){
+    $("sumQty").textContent = productsQty();
+    $("cartCountTop").textContent = productsQty();
+    $("cartCountText").textContent = productsQty();
+
+    $("sumProducts").textContent = money(productsTotal());
+    $("sumDiscount").textContent = "- " + money(discounts);
+    $("sumDelivery").textContent = money(deliveryCost);
+
+    const total = productsTotal() - discounts + deliveryCost;
+    $("sumTotal").textContent = money(total);
+
+    const step = currentStep();
+    $("summaryAction").textContent = step===1 ? "Continuar compra" : step===2 ? "Ir a pagar" : "Pagar ahora";
+  }
+
+  // Steps
+  function currentStep(){
+    if($("step-cart").style.display !== "none") return 1;
+    if($("step-delivery").style.display !== "none") return 2;
+    return 3;
+  }
+
+  function setStepper(step){
+    const s1=$("s1"), s2=$("s2"), s3=$("s3");
+    const l1=$("l1"), l2=$("l2");
+    [s1,s2,s3].forEach(s=>s.classList.remove("active","done"));
+    [l1,l2].forEach(l=>l.classList.remove("active","done"));
+
+    if(step===1){ s1.classList.add("active"); l1.classList.add("active"); }
+    else if(step===2){ s1.classList.add("done"); s2.classList.add("active"); l1.classList.add("done"); l2.classList.add("active"); }
+    else { s1.classList.add("done"); s2.classList.add("done"); s3.classList.add("active"); l1.classList.add("done"); l2.classList.add("done"); }
+  }
+
+  function goStep(step){
+    $("step-cart").style.display = (step===1) ? "block" : "none";
+    $("step-delivery").style.display = (step===2) ? "block" : "none";
+    $("step-pay").style.display = (step===3) ? "block" : "none";
+    setStepper(step);
+    updateSummary();
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  $("btnToDelivery").onclick = ()=>{
+    if(cart.length === 0){ alert("Tu carrito está vacío."); return; }
+    goStep(2);
+  };
+  $("backToCart").onclick = ()=> goStep(1);
+
+  $("btnToPay").onclick = ()=>{
+    if(cart.length === 0){ alert("Tu carrito está vacío."); return; }
+    if(!deliveryMode){ alert("Selecciona un tipo de entrega."); return; }
+    goStep(3);
+  };
+
+  $("summaryAction").onclick = ()=>{
+    const step = currentStep();
+    if(step===1){
+      if(cart.length === 0){ alert("Tu carrito está vacío."); return; }
+      return goStep(2);
+    }
+    if(step===2){
+      if(cart.length === 0){ alert("Tu carrito está vacío."); return; }
+      if(!deliveryMode){ alert("Selecciona un tipo de entrega."); return; }
+      return goStep(3);
+    }
+    payNow();
+  };
+
+  $("btnToHome").onclick = ()=> alert("Demo: ir a Catálogo / Home.");
+  $("homeBtn").onclick = ()=> alert("Demo: ir a Home.");
+  $("selectAllBtn").onclick = ()=> alert("Demo: seleccionar todos.");
+
+  // ---------- Delivery: exclusivity + keep last homeType ----------
+  function clearDeliverySelection(){
+    deliveryMode = null;
+    deliveryCost = 0;
+    deliveryLabel = "—";
+    $("deliverySelectedChip").textContent = "Seleccionado: —";
+    $("dStore").checked = false;
+    $("dHome").checked  = false;
+    $("dPoint").checked = false;
+    clearPointChoice();
+  }
+
+  function clearPointChoice(){
+    document.querySelectorAll('input[name="pointChoice"]').forEach(r => r.checked = false);
+  }
+
+  function selectDefaultPoint(){
+    const any = document.querySelector('input[name="pointChoice"]:checked');
+    if(!any){
+      const first = document.querySelector('input[name="pointChoice"]');
+      if(first) first.checked = true;
+    }
+  }
+
+  function setDelivery(mode){
+    deliveryMode = mode;
+
+    $("dStore").checked = (mode==="store");
+    $("dHome").checked  = (mode==="home");
+    $("dPoint").checked = (mode==="point");
+
+    if(mode !== "point") clearPointChoice();
+    if(mode === "point") selectDefaultPoint();
+
+    if(mode==="store"){
+      deliveryCost = 0;
+      deliveryLabel = "Recoger en tienda (Gratis)";
+    } else if(mode==="home"){
+      deliveryCost = (homeType==="exp") ? 15 : 10;
+      deliveryLabel = (homeType==="exp") ? "Envío express (24h)" : "Envío estándar (48–72h)";
+    } else if(mode==="point"){
+      deliveryCost = 0;
+      const p = document.querySelector('input[name="pointChoice"]:checked')?.value || "adrian";
+      deliveryLabel = (p==="zapler") ? "Retiro en Zapler SAC (Gratis)" : "Retiro en Adrian SAC (Gratis)";
+    }
+
+    $("deliverySelectedChip").textContent = "Seleccionado: " + deliveryLabel;
+    updateSummary();
+  }
+
+  $("dStore").onchange = ()=> setDelivery("store");
+  $("dHome").onchange  = ()=> setDelivery("home");
+  $("dPoint").onchange = ()=> setDelivery("point");
+
+  function applyHomeType(newType){
+    homeType = newType; // se mantiene para cuando vuelvas a Envío
+    const date = DATES[homeType];
+    $("dateChip").textContent = "Fecha: " + date;
+    $("homeEtaText").textContent = "Llega el " + date;
+    $("homeCostRight").textContent = (homeType==="exp") ? "S/ 15" : "S/ 10";
+    setDelivery("home"); // auto-select
+  }
+
+  $("homeStd").addEventListener("change", ()=> applyHomeType("std"));
+  $("homeExp").addEventListener("change", ()=> applyHomeType("exp"));
+
+  function ensurePointSelected(){
+    setDelivery("point"); // auto-select y desmarca envío
+  }
+  document.querySelectorAll('input[name="pointChoice"]').forEach(r=>{
+    r.addEventListener("change", ensurePointSelected);
+    r.addEventListener("click", ensurePointSelected);
+  });
+
+  $("btnChangeDate").onclick = ()=>{
+    if(deliveryMode !== "home"){
+      alert("Selecciona 'Envío a domicilio' para cambiar fecha.");
+      return;
+    }
+    applyHomeType(homeType==="exp" ? "std" : "exp");
+  };
+  $("btnChangeAddress").onclick = ()=> alert("Demo: modal para cambiar dirección.");
+
+  // Inicializar homeType en estándar => 17/01 (pero sin elegir entrega)
+  applyHomeType("std");
+  clearDeliverySelection();
+  $("homeCostRight").textContent = "S/ 10";
+
+  // ---------- Payment ----------
+  let payMethod = "credit";
+  function setPayMethod(m){
+    payMethod = m;
+    $("paySelectedChip").textContent = "Método: " + (
+      m==="credit" ? "Tarjeta crédito" :
+      m==="debit" ? "Tarjeta débito" :
+      m==="wallet" ? "Billetera/QR" : "Transferencia"
+    );
+  }
+  document.querySelectorAll(".payOpt").forEach(el=>{
+    el.onclick = ()=>{
+      document.querySelectorAll(".payOpt").forEach(x=>x.classList.remove("active"));
+      el.classList.add("active");
+      setPayMethod(el.dataset.pay);
+    };
+  });
+  setPayMethod("credit");
+
+  $("backToDelivery").onclick = ()=> goStep(2);
+  $("btnPayNow").onclick = ()=> payNow();
+
+  // ---------- Modal ----------
+  const ov = $("ov"), modal = $("modal");
+  function showModal(show){
+    ov.classList.toggle("show", show);
+    modal.classList.toggle("show", show);
+  }
+  $("closeModal").onclick = ()=> showModal(false);
+  ov.onclick = ()=> showModal(false);
+  $("goOrders").onclick = ()=>{ showModal(false); alert("Demo: ir a Mis pedidos."); };
+  $("goHome").onclick = ()=>{ showModal(false); alert("Demo: volver al inicio."); };
+
+  function payNow(){
+    if(cart.length === 0){ alert("Tu carrito está vacío."); goStep(1); return; }
+    if(!deliveryMode){ alert("Selecciona un tipo de entrega."); goStep(2); return; }
+    if(!$("termsOk").checked){ alert("Debes aceptar los términos y condiciones para continuar."); return; }
+
+    const order = String(Math.floor(100000 + Math.random()*900000));
+    $("orderId").textContent = order;
+
+    const track = "#RQ$&%#$(%(" + order;
+    $("trackLink").textContent = track;
+    $("trackLink").href = track;
+
+    let msg = "";
+    if(deliveryMode==="store"){
+      msg = `Recoge tu pedido desde mañana en tienda: ${addrStore}.`;
+    } else if(deliveryMode==="home"){
+      const date = DATES[homeType];
+      msg = `Recibe tu pedido el día ${date} (rango 8 a 22 h).`;
+    } else {
+      const p = document.querySelector('input[name="pointChoice"]:checked')?.value || "adrian";
+      msg = (p==="zapler")
+        ? `Recoge tu pedido en Zapler SAC: ${addrP2}.`
+        : `Recoge tu pedido en Adrian SAC: ${addrP1}.`;
+    }
+    $("successText").textContent = msg + " Puedes rastrearlo desde “Mis pedidos”.";
+    showModal(true);
+  }
+
+  // ---------- Dynamic Upsell (based on cart) ----------
+  const UPSELL_CATALOG = [
+    { id:101, name:"Limpia parabrisas (500 ml)", sku:"ACC-WIP-500", price:18.90, tags:["limpia","parabrisas","vidrio"] },
+    { id:102, name:"Aromatizador (auto)", sku:"ACC-ARO-001", price:14.90, tags:["aroma","interior"] },
+    { id:103, name:"Limpia cuero (350 ml)", sku:"ACC-LEA-350", price:29.90, tags:["cuero","interior","asiento"] },
+    { id:104, name:"Embudo para aceite", sku:"ACC-FUN-001", price:12.90, tags:["aceite","motor","embudo"] },
+    { id:105, name:"Guantes nitrilo (par)", sku:"ACC-GLV-002", price:9.90, tags:["aceite","mecanica","seguridad"] },
+    { id:106, name:"Paños microfibra (x3)", sku:"ACC-MIC-003", price:16.90, tags:["limpia","interior","exterior"] },
+    { id:107, name:"Líquido de frenos DOT 4 (500 ml)", sku:"ACC-BRK-500", price:24.90, tags:["freno","dot4"] },
+    { id:108, name:"Limpiador de discos de freno", sku:"ACC-BRK-CLE", price:22.90, tags:["freno","disco","limpia"] },
+  ];
+
+  function cartKeywords(){
+    const text = cart.map(i => (i.name + " " + i.sku).toLowerCase()).join(" ");
+    const keys = new Set();
+    if(text.includes("aceite")) keys.add("aceite");
+    if(text.includes("filtro")) keys.add("filtro");
+    if(text.includes("freno") || text.includes("pastilla") || text.includes("disco") || text.includes("brk")) keys.add("freno");
+    if(text.includes("motor")) keys.add("motor");
+    return keys;
+  }
+
+  function chooseUpsell(){
+    const keys = cartKeywords();
+    const inCart = new Set(cart.map(x=>x.id));
+    let candidates = UPSELL_CATALOG
+      .filter(p => !inCart.has(p.id))
+      .map(p=>{
+        let score = 0;
+        // scoring simple por tags + keywords
+        if(keys.has("aceite") && p.tags.includes("aceite")) score += 5;
+        if(keys.has("freno") && p.tags.includes("freno")) score += 5;
+        if(keys.has("motor") && p.tags.includes("motor")) score += 3;
+        if(p.tags.includes("limpia")) score += 1; // universal
+        if(p.tags.includes("interior")) score += 1;
+        return { ...p, score };
+      })
+      .sort((a,b)=> b.score - a.score);
+
+    // Si no hay match fuerte, igual mostrar universales
+    if(candidates.length === 0) return [];
+    const picked = [];
+    for(const c of candidates){
+      if(picked.length >= 3) break;
+      // Priorizar score > 0, pero si no, completar con universales
+      if(c.score > 0 || picked.length < 3) picked.push(c);
+    }
+    return picked;
+  }
+
+  function renderUpsell(){
+    const el = $("upsellList");
+    if(!el) return;
+    el.innerHTML = "";
+
+    const picks = chooseUpsell();
+    $("upsellHint").textContent = picks.length
+      ? "Sugerencias según tu carrito"
+      : "Agrega un producto para ver sugerencias";
+
+    if(picks.length === 0){
+      el.innerHTML = `
+        <div class="card" style="padding:14px; border-radius:16px">
+          <div style="font-weight:950">Sin sugerencias por ahora</div>
+          <div class="sub">Cuando agregues repuestos, te mostraremos extras útiles.</div>
+        </div>`;
+      return;
+    }
+
+    picks.forEach(p=>{
+      const card = document.createElement("div");
+      card.className = "card";
+      card.style.padding = "14px";
+      card.style.borderRadius = "16px";
+      card.style.boxShadow = "0 12px 26px rgba(15,23,42,.04)";
+      card.innerHTML = `
+        <div style="display:flex; gap:12px; align-items:center; justify-content:space-between">
+          <div style="display:flex; gap:12px; align-items:center">
+            <div class="thumb" style="width:50px;height:50px;border-radius:14px">IMG</div>
+            <div>
+              <div style="font-weight:950; line-height:1.15">${p.name}</div>
+              <div class="meta">Código: ${p.sku}</div>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:950">${money(p.price)}</div>
+            <button class="btn primary" style="padding:8px 10px; border-radius:12px; margin-top:8px"
+              data-addupsell="${p.id}">Añadir</button>
+          </div>
+        </div>
+      `;
+      el.appendChild(card);
+    });
+
+    document.querySelectorAll("[data-addupsell]").forEach(b=>{
+      b.onclick = ()=>{
+        const id = Number(b.dataset.addupsell);
+        const p = UPSELL_CATALOG.find(x=>x.id===id);
+        if(!p) return;
+
+        const existing = cart.find(x=>x.id===p.id);
+        if(existing) existing.qty += 1;
+        else cart.push({ id:p.id, name:p.name, sku:p.sku, price:p.price, qty:1 });
+
+        renderCart();
+        alert(`Añadido: ${p.name}`);
+      };
+    });
+  }
+
+  // Init
+  renderCart();
+  goStep(1);
+</script>
+
+</body>
+</html>
